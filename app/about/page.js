@@ -1,9 +1,13 @@
-"use client";
-
 import { siteConfig } from "@/lib/siteConfig";
 import Reveal from "@/components/Reveal";
 import SectionLabel from "@/components/SectionLabel";
 import Image from "next/image";
+
+export const metadata = {
+  title: "About – Saurav Prajapati, Shopify & Frontend Developer",
+  description:
+    "Learn about Saurav Prajapati, a Shopify & Frontend Developer based in Delhi, India. 3+ years of experience, 50+ projects delivered.",
+};
 
 export default function AboutPage() {
   return (

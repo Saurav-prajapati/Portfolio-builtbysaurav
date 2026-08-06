@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { siteConfig } from "@/lib/siteConfig";
@@ -8,6 +6,12 @@ import Reveal from "@/components/Reveal";
 import SectionLabel from "@/components/SectionLabel";
 import ProjectCard from "@/components/ProjectCard";
 import HeroSection from "@/components/HeroSection";
+
+export const metadata = {
+  title: "Shopify & Frontend Developer Delhi – Saurav Prajapati",
+  description:
+    "Freelance Shopify & React developer in Delhi. 50+ projects delivered. Custom themes, Liquid development, Next.js apps, and performance optimization.",
+};
 
 export default function HomePage() {
   const featured = siteConfig.projects.slice(0, 6);

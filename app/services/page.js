@@ -1,9 +1,13 @@
-"use client";
-
 import Link from "next/link";
 import { siteConfig } from "@/lib/siteConfig";
 import Reveal from "@/components/Reveal";
 import SectionLabel from "@/components/SectionLabel";
+
+export const metadata = {
+  title: "Services – Shopify, React, WordPress Development",
+  description:
+    "Custom Shopify stores, React apps, Next.js sites, WordPress development, and frontend UI. Freelance developer based in Delhi, India.",
+};
 
 const PROCESS = [
   { step: "Scope", detail: "We define what the site needs to do, for who, and by when." },
