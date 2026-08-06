@@ -34,6 +34,9 @@ export const metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.tagline,
+  alternates: {
+    canonical: "/",
+  },
 
   // ── Keywords & Author ──
   keywords: [
