@@ -1,0 +1,117 @@
+import { Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import CustomCursor from "@/components/CustomCursor";
+import JsonLd from "@/components/JsonLd";
+import { siteConfig } from "@/lib/siteConfig";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-space",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+export const metadata = {
+  // ── Primary ──
+  title: {
+    default: `${siteConfig.name} – ${siteConfig.role}`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.tagline,
+
+  // ── Keywords & Author ──
+  keywords: [
+    "Shopify developer Delhi",
+    "frontend developer India",
+    "React developer",
+    "Next.js developer",
+    "WordPress developer",
+    "Shopify store development",
+    "freelance web developer",
+    "website performance optimization",
+    "custom Shopify themes",
+    "React frontend",
+    "UI/UX developer",
+    "Saurav Prajapati",
+  ],
+  authors: [{ name: siteConfig.name, url: siteConfig.siteUrl }],
+
+  // ── Canonical & Robots ──
+  metadataBase: new URL(siteConfig.siteUrl),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
+  // ── Open Graph ──
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: siteConfig.siteUrl,
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} – ${siteConfig.role}`,
+    description: siteConfig.tagline,
+    images: [
+      {
+        url: `${siteConfig.siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} – ${siteConfig.role}`,
+      },
+    ],
+  },
+
+  // ── Twitter ──
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} – ${siteConfig.role}`,
+    description: siteConfig.tagline,
+    images: [`${siteConfig.siteUrl}/og-image.png`],
+  },
+
+  // ── Verification (add yours after submitting to Google) ──
+  // verification: {
+  //   google: "your-google-verification-code",
+  // },
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable}`}
+    >
+      <body className="font-body antialiased">
+        <CustomCursor />
+        <div className="grain-overlay" />
+        <Header />
+        <main className="pt-14">{children}</main>
+        <Footer />
+        <JsonLd />
+      </body>
+    </html>
+  );
+}

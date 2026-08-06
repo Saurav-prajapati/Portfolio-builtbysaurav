@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #22262F #0A0C10;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0A0C10;
+  color: #F2F0EA;
+  overflow-x: hidden;
+}
+
+/* Grain overlay for texture */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hide native cursor on precision pointers only (mouse/trackpad, not touch) */
+@media (pointer: fine) {
+  html, body, a, button, input, textarea, [role="button"] {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: #C6FF52;
+  color: #0A0C10;
+}
+
+:focus-visible {
+  outline: 2px solid #C6FF52;
+  outline-offset: 3px;
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px #F2F0EA;
+  color: transparent;
+}
+
+.hairline {
+  border-color: #22262F;
+}
+
+.bracket-glow {
+  text-shadow: 0 0 24px rgba(198, 255, 82, 0.35);
+}
+
+.terminal-shadow {
+  box-shadow: 0 0 0 1px #22262F, 0 30px 80px -20px rgba(124, 92, 255, 0.35);
+}
+
+.dot-grid {
+  background-image: radial-gradient(#22262F 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.max-w-6xl{
+  max-width: 90rem;
+}
