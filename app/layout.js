@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import JsonLd from "@/components/JsonLd";
-import { GoogleTagManager } from "@next/third-parties/google";
+import Script from "next/script";
 import { siteConfig } from "@/lib/siteConfig";
 
 const spaceGrotesk = Space_Grotesk({
@@ -105,17 +105,39 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable}`}
     >
-      <body className="font-body antialiased">
-        {/* Google Tag Manager (noscript) + head script automatically */}
-        <GoogleTagManager gtmId="GTM-KJKFJ77H" />
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} font-body antialiased`}>
+        {/* Google Tag Manager - head script (inlined via Script) */}
+        <Script id="gtm" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];
+            w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+            var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+            j.async=true;
+            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+            f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KJKFJ77H');
+          `}
+        </Script>
+
+        {/* Google Tag Manager (noscript fallback) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KJKFJ77H"
+            height="0"
+            width="0"
+            style={{
+              display: "none",
+              visibility: "hidden",
+            }}
+          />
+        </noscript>
 
         <CustomCursor />
         <div className="grain-overlay" />
         <Header />
         <main className="pt-14">{children}</main>
         <Footer />
-
-        {/* Structured data for search engines */}
         <JsonLd />
       </body>
     </html>
