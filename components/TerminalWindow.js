@@ -14,30 +14,29 @@ const getExperience = (startDate) => {
 };
 
 const CODE_LINES = [
-  { indent: 0, text: "const engineer = {" },
+  { indent: 0, text: "const studio = {" },
 
-  { indent: 1, text: 'name: "Saurav Prajapati",' },
-  { indent: 1, text: 'role: "Shopify & Frontend Developer",' },
+  { indent: 1, text: 'name: "Built by Saurav",' },
+  { indent: 1, text: 'role: "Digital Studio – Shopify, Frontend & Graphic Design",' },
   { indent: 1, text: `experience: "${getExperience("2022-09-01")}",` },
   { indent: 1, text: 'location: "Delhi, India",' },
 
   {
     indent: 1,
-    text: 'stack: ["Shopify", "React", "Next.js", "TypeScript", "Node.js", "WordPress"],',
+    text: 'stack: ["Shopify", "React", "Next.js", "TypeScript", "Node.js", "WordPress", "Java", "Spring Boot", "Photoshop", "Illustrator", "Premiere Pro"],',
   },
 
-  { indent: 1, text: 'speciality: "Performance & Scalable UI",' },
+  { indent: 1, text: 'speciality: "Full‑Service Digital Studio",' },
   { indent: 1, text: 'projectsDelivered: "50+",' },
   { indent: 1, text: 'shopifyStores: "20+",' },
-  { indent: 1, text: 'shopifyApps: 2,' },
+  { indent: 1, text: 'designServices: "5+",' },
+  { indent: 1, text: 'javaProjects: "3+",' },
 
-  { indent: 1, text: 'currently: "Shopify Developer @ Eglogics Softech",' },
-
-  { indent: 1, text: 'status: "Open to Work",' },
+  { indent: 1, text: 'currently: "Open to work",' },
 
   {
     indent: 1,
-    text: 'availableFor: ["Full-time", "Freelance", "Contract"],',
+    text: 'availableFor: ["Freelance", "Contract", "Full-time"],',
   },
 
   { indent: 0, text: "};" },
@@ -88,7 +87,7 @@ export default function TerminalWindow() {
           const text = isCurrent ? line.text.slice(0, charCount) : line.text;
           return (
             <div key={i} style={{ paddingLeft: `${line.indent * 1.25}rem` }}>
-              <span className={line.text.includes(":") ? "text-ink" : "text-violet"}>
+              <span className={`${line.text.includes(":") ? "text-ink" : "text-violet"} text-wrap`}>
                 {colorize(text)}
               </span>
               {isCurrent && <span className="animate-blink text-lime">▍</span>}

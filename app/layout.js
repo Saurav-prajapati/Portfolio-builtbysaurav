@@ -105,7 +105,8 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable}`}
     >
-      <body>
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} font-body antialiased`}>
+        {/* Google Tag Manager - head script (inlined via Script) */}
         <Script id="gtm" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
@@ -119,6 +120,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
+        {/* Google Tag Manager (noscript fallback) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KJKFJ77H"

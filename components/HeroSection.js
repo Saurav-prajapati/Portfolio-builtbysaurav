@@ -14,11 +14,11 @@ function DropText({ phrase, className }) {
             {characters.map((char, i) => (
                 <motion.span
                     key={`${char}-${i}`}
-                    initial={{ y: -120, opacity: 0 }}          // fall from higher up
+                    initial={{ y: -120, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{
-                        duration: 0.70,
-                        delay: i * 0.1,                         // quick stagger
+                        duration: 0.7,
+                        delay: i * 0.1,
                         type: "spring",
                         stiffness: 400,
                         damping: 20,
@@ -36,16 +36,17 @@ function DropText({ phrase, className }) {
     );
 }
 
-
 export default function HeroSection() {
-
     const phrases = [
         "Builds Shopify stores.",
+        "Designs stunning graphics.",
         "Crafts React apps.",
+        "Edits engaging videos.",
+        "Develops Java backends.",
         "Ships Next.js solutions.",
         "Optimizes WordPress.",
-        "Writes clean code.",
     ];
+
     const [phraseIndex, setPhraseIndex] = useState(0);
 
     useEffect(() => {
@@ -78,9 +79,7 @@ export default function HeroSection() {
                         transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                         className="font-display text-5xl font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"
                     >
-                        <span className="font-bold">
-                            {siteConfig.name}
-                        </span>
+                        <span className="font-bold">{siteConfig.name}</span>
                         <span className="block text-outline text-5xl">
                             <AnimatePresence mode="wait">
                                 <DropText key={phraseIndex} phrase={phrases[phraseIndex]} />
@@ -88,15 +87,14 @@ export default function HeroSection() {
                         </span>
                     </motion.h1>
 
-                    {/* Tagline */}
+                    {/* Tagline – now shows the brand‑new message directly */}
                     <motion.p
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="mt-7 max-w-md text-lg leading-relaxed text-muted font-display"
                     >
-                        {siteConfig.tagline} From Shopify storefronts to Next.js apps — I ship across five stacks
-                        and keep every one of them fast.
+                        {siteConfig.tagline}
                     </motion.p>
 
                     {/* Buttons */}
@@ -130,43 +128,13 @@ export default function HeroSection() {
                     </motion.div>
                 </div>
 
-                {/* Right column – Terminal + floating badges + avatar */}
+                {/* Right column – Terminal */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="w-full flex-1 md:pl-6 relative"
                 >
-                    {/* Floating tech badges */}
-                    {/* <div className="absolute inset-0 z-10 pointer-events-none">
-                    {siteConfig.stack.slice(0, 6).map((tech, i) => (
-                        <motion.div
-                            key={tech.name}
-                            className="absolute rounded-full border border-line bg-panel/80 px-3 py-1 text-xs font-mono text-muted backdrop-blur"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{
-                                opacity: 0.9,
-                                scale: 1,
-                                x: [0, Math.sin(i * 1.5) * 10, 0],
-                                y: [0, Math.cos(i * 1.5) * 10, 0],
-                            }}
-                            transition={{
-                                duration: 4,
-                                repeat: Infinity,
-                                repeatType: "reverse",
-                                delay: i * 0.3,
-                            }}
-                            style={{
-                                top: `${15 + i * 15}%`,
-                                left: i % 2 === 0 ? "5%" : "80%",
-                            }}
-                        >
-                            {tech.name}
-                        </motion.div>
-                    ))}
-                </div> */}
-
-                    {/* Terminal */}
                     <div className="animate-floaty relative z-0">
                         <TerminalWindow
                             commands={[
