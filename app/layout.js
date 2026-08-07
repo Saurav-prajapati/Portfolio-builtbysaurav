@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import JsonLd from "@/components/JsonLd";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { siteConfig } from "@/lib/siteConfig";
 
 const spaceGrotesk = Space_Grotesk({
@@ -34,9 +35,6 @@ export const metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.tagline,
-  alternates: {
-    canonical: "/",
-  },
 
   // ── Keywords & Author ──
   keywords: [
@@ -95,10 +93,10 @@ export const metadata = {
     images: [`${siteConfig.siteUrl}/og-image.png`],
   },
 
-  // ── Verification (add yours after submitting to Google) ──
-  // verification: {
-  //   google: "your-google-verification-code",
-  // },
+  // ── Google Site Verification ──
+  verification: {
+    google: "2Htkow39h0rfRt2xjJres9V-OwTurGQzJgAilcFyemg",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -108,11 +106,16 @@ export default function RootLayout({ children }) {
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable}`}
     >
       <body className="font-body antialiased">
+        {/* Google Tag Manager (noscript) + head script automatically */}
+        <GoogleTagManager gtmId="GTM-KJKFJ77H" />
+
         <CustomCursor />
         <div className="grain-overlay" />
         <Header />
         <main className="pt-14">{children}</main>
         <Footer />
+
+        {/* Structured data for search engines */}
         <JsonLd />
       </body>
     </html>
