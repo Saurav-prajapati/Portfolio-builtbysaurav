@@ -75,7 +75,7 @@ export default function ContactPageClient() {
                             <span className="text-muted">email</span> {siteConfig.email}
                         </a>
                         <a href={`tel:${siteConfig.phone}`} data-cursor="call" className="flex items-center gap-3 text-ink transition-colors hover:text-lime">
-                            <span className="text-muted">phone</span> {siteConfig.phone}
+                            <span className="text-muted">phone</span> {siteConfig.phone}, +91 8881140487
                         </a>
                         <p className="flex items-center gap-3 text-ink">
                             <span className="text-muted">based in</span> {siteConfig.location}
@@ -138,41 +138,43 @@ export default function ContactPageClient() {
                         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <label className="block font-mono text-xs uppercase tracking-wider text-muted">
-                                    service needed
+                                service needed
                                 </label>
                                 <select
-                                    value={form.service}
-                                    onChange={update("service")}
-                                    className="mt-2 w-full rounded-md border border-line bg-base px-4 py-3 text-ink outline-none transition-colors focus:border-lime font-mono text-sm"
+                                value={form.service}
+                                onChange={update("service")}
+                                className="mt-2 w-full rounded-md border border-line bg-base px-4 py-3 text-ink outline-none transition-colors focus:border-lime font-mono text-sm"
                                 >
-                                    <option value="">Select a service</option>
-                                    <option value="Shopify Development">Shopify Development</option>
-                                    <option value="React / Next.js App">React / Next.js App</option>
-                                    <option value="WordPress Website">WordPress Website</option>
-                                    <option value="HTML/CSS/JS Frontend">HTML/CSS/JS Frontend</option>
-                                    <option value="Other / Not sure">Other / Not sure</option>
+                                <option value="">Select a service</option>
+                                <option value="Shopify Development">Shopify Development</option>
+                                <option value="React / Next.js App">React / Next.js App</option>
+                                <option value="WordPress Website">WordPress Website</option>
+                                <option value="HTML/CSS/JS Frontend">HTML/CSS/JS Frontend</option>
+                                <option value="Graphic Design / Video Editing">Graphic Design / Video Editing</option>
+                                <option value="Java Backend Development">Java Backend Development</option>
+                                <option value="Other / Not sure">Other / Not sure</option>
                                 </select>
                             </div>
 
                             <div>
                                 <label className="block font-mono text-xs uppercase tracking-wider text-muted">
-                                    budget range
+                                budget range
                                 </label>
                                 <select
-                                    value={form.budget}
-                                    onChange={update("budget")}
-                                    className="mt-2 w-full rounded-md border border-line bg-base px-4 py-3 text-ink outline-none transition-colors focus:border-lime font-mono text-sm"
+                                value={form.budget}
+                                onChange={update("budget")}
+                                className="mt-2 w-full rounded-md border border-line bg-base px-4 py-3 text-ink outline-none transition-colors focus:border-lime font-mono text-sm"
                                 >
-                                    <option value="">Select a budget</option>
-                                    <option value="Under $500">Under $500</option>
-                                    <option value="$500 - $1,000">$500 – $1,000</option>
-                                    <option value="$1,000 - $3,000">$1,000 – $3,000</option>
-                                    <option value="$3,000 - $5,000">$3,000 – $5,000</option>
-                                    <option value="$5,000+">$5,000+</option>
-                                    <option value="Not sure yet">Not sure yet</option>
+                                <option value="">Select a budget</option>
+                                <option value="$100 - $500">$100 – $500</option>
+                                <option value="$500 - $1,000">$500 – $1,000</option>
+                                <option value="$1,000 - $3,000">$1,000 – $3,000</option>
+                                <option value="$3,000 - $5,000">$3,000 – $5,000</option>
+                                <option value="$5,000+">$5,000+</option>
+                                <option value="Not sure yet">Not sure yet</option>
                                 </select>
                             </div>
-                        </div>
+                            </div>
 
                         <label className="mt-5 block font-mono text-xs uppercase tracking-wider text-muted">
                             project details

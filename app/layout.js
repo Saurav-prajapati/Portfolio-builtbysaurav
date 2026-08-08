@@ -29,6 +29,11 @@ const inter = Inter({
 });
 
 export const metadata = {
+  icons: {
+    icon: "/fav.png",
+    apple: "/fav.png",
+  },
+
   // ── Primary ──
   title: {
     default: `${siteConfig.name} – ${siteConfig.role}`,
