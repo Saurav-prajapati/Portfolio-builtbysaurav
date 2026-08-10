@@ -151,6 +151,7 @@ export default function ContactPageClient() {
                                 <option value="WordPress Website">WordPress Website</option>
                                 <option value="HTML/CSS/JS Frontend">HTML/CSS/JS Frontend</option>
                                 <option value="Graphic Design / Video Editing">Graphic Design / Video Editing</option>
+                                <option value="Photography">Photography</option>
                                 <option value="Java Backend Development">Java Backend Development</option>
                                 <option value="Other / Not sure">Other / Not sure</option>
                                 </select>
