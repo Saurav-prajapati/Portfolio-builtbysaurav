@@ -39,10 +39,14 @@ module.exports = {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        marquees: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         blink: "blink 1s steps(1) infinite",
-        marquee: "marquee 22s linear infinite",
+        marquee: "marquee 25s linear infinite",
         floaty: "floaty 5s ease-in-out infinite",
       },
     },

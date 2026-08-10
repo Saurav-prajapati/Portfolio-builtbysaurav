@@ -10,7 +10,8 @@ const TABS = [
   { href: "/", file: "home.tsx" },
   { href: "/about", file: "about.tsx" },
   { href: "/portfolio", file: "portfolio.tsx" },
-  { href: "/services", file: "services.tsx" }, // will be rendered as dropdown
+  { href: "/services", file: "services.tsx" },
+  { href: "/blog", file: "blog.tsx" },
   { href: "/contact", file: "contact.tsx" },
 ];
 
@@ -18,11 +19,12 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const closeTimeoutRef = useRef(null);
 
   const activeServices = pathname.startsWith("/services");
 
-  // Clear timeout to prevent closing
+  // Desktop dropdown logic
   const handleMouseEnter = () => {
     clearTimeout(closeTimeoutRef.current);
     setServicesOpen(true);
@@ -53,7 +55,6 @@ export default function Header() {
         {/* Desktop navigation */}
         <nav className="hidden items-stretch md:flex">
           {TABS.map((tab) => {
-            // Regular tabs (not services)
             if (tab.href !== "/services") {
               const active = pathname === tab.href;
               return (
@@ -61,14 +62,12 @@ export default function Header() {
                   key={tab.href}
                   href={tab.href}
                   data-cursor="open"
-                  className={`group relative flex items-center gap-2 border-r border-line px-4 py-3 font-mono text-[13px] transition-colors ${
-                    active ? "bg-panel text-ink" : "text-muted hover:text-ink"
-                  }`}
+                  className={`group relative flex items-center gap-2 border-r border-line px-4 py-3 font-mono text-[13px] transition-colors ${active ? "bg-panel text-ink" : "text-muted hover:text-ink"
+                    }`}
                 >
                   <span
-                    className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                      active ? "bg-lime" : "bg-line group-hover:bg-violet"
-                    }`}
+                    className={`h-1.5 w-1.5 rounded-full transition-colors ${active ? "bg-lime" : "bg-line group-hover:bg-violet"
+                      }`}
                   />
                   {tab.file}
                   {active && (
@@ -81,7 +80,7 @@ export default function Header() {
               );
             }
 
-            // Services tab – dropdown on desktop
+            // Services dropdown – desktop
             return (
               <div
                 key="services-dropdown"
@@ -92,18 +91,16 @@ export default function Header() {
                 <Link
                   href="/services"
                   data-cursor="open"
-                  className={`flex items-center gap-2 px-4 py-3 font-mono text-[13px] transition-colors ${
-                    activeServices
+                  className={`flex items-center gap-2 px-4 py-3 font-mono text-[13px] transition-colors ${activeServices
                       ? "bg-panel text-ink"
                       : "text-muted hover:text-ink"
-                  }`}
+                    }`}
                 >
                   <span
-                    className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                      activeServices
+                    className={`h-1.5 w-1.5 rounded-full transition-colors ${activeServices
                         ? "bg-lime"
                         : "bg-line group-hover:bg-violet"
-                    }`}
+                      }`}
                   />
                   services.tsx
                   {activeServices && (
@@ -114,7 +111,6 @@ export default function Header() {
                   )}
                 </Link>
 
-                {/* Dropdown */}
                 <AnimatePresence>
                   {servicesOpen && (
                     <motion.div
@@ -163,24 +159,21 @@ export default function Header() {
           aria-label="Toggle menu"
         >
           <span
-            className={`h-[2px] w-6 bg-ink transition-transform ${
-              open ? "translate-y-2 rotate-45" : ""
-            }`}
+            className={`h-[2px] w-6 bg-ink transition-transform ${open ? "translate-y-2 rotate-45" : ""
+              }`}
           />
           <span
-            className={`h-[2px] w-6 bg-ink transition-opacity ${
-              open ? "opacity-0" : ""
-            }`}
+            className={`h-[2px] w-6 bg-ink transition-opacity ${open ? "opacity-0" : ""
+              }`}
           />
           <span
-            className={`h-[2px] w-6 bg-ink transition-transform ${
-              open ? "-translate-y-2 -rotate-45" : ""
-            }`}
+            className={`h-[2px] w-6 bg-ink transition-transform ${open ? "-translate-y-2 -rotate-45" : ""
+              }`}
           />
         </button>
       </div>
 
-      {/* Mobile menu (unchanged) */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.nav
@@ -189,18 +182,62 @@ export default function Header() {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-t border-line bg-panel md:hidden"
           >
-            {TABS.map((tab) => (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                onClick={() => setOpen(false)}
-                className={`flex items-center gap-2 border-b border-line px-5 py-4 font-mono text-sm ${
-                  pathname === tab.href ? "text-lime" : "text-ink"
-                }`}
-              >
-                <span className="text-muted">{"//"}</span> {tab.file}
-              </Link>
-            ))}
+            {TABS.map((tab) => {
+              if (tab.href !== "/services") {
+                const active = pathname === tab.href;
+                return (
+                  <Link
+                    key={tab.href}
+                    href={tab.href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center gap-2 border-b border-line px-5 py-4 font-mono text-sm ${active ? "text-lime" : "text-ink"
+                      }`}
+                  >
+                    <span className="text-muted">{"//"}</span> {tab.file}
+                  </Link>
+                );
+              }
+
+              // Services – mobile with collapsible submenu
+              return (
+                <div key="mobile-services">
+                  <button
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    className={`flex w-full items-center gap-2 border-b border-line px-5 py-4 font-mono text-sm ${activeServices ? "text-lime" : "text-ink"
+                      }`}
+                  >
+                    <span className="text-muted">{"//"}</span> services.tsx
+                    <span className="ml-auto text-muted text-sm">
+                      {mobileServicesOpen ? "-" : "+"}
+                    </span>
+                  </button>
+                  <AnimatePresence>
+                    {mobileServicesOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden border-b border-line bg-base/50"
+                      >
+                        {siteConfig.serviceinner.map((service) => (
+                          <Link
+                            key={service.slug}
+                            href={`/services/${service.slug}`}
+                            onClick={() => {
+                              setMobileServicesOpen(false);
+                              setOpen(false);
+                            }}
+                            className="flex items-center gap-2 px-8 py-3 font-mono text-xs text-muted hover:text-lime transition-colors border-t border-line/50"
+                          >
+                            <span className="text-muted">└</span> {service.code}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </motion.nav>
         )}
       </AnimatePresence>

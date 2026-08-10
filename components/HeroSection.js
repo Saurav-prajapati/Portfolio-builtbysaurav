@@ -118,13 +118,13 @@ export default function HeroSection() {
                         >
                             get in touch
                         </Link>
-                        <a
+                        {/* <a
                             href={siteConfig.resumeUrl}
                             download
                             className="rounded-full border border-line px-6 py-3 font-mono text-sm text-ink transition-colors hover:border-violet hover:text-violet"
                         >
                             download cv
-                        </a>
+                        </a> */}
                     </motion.div>
                 </div>
 
