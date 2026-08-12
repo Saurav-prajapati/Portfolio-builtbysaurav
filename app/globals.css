@@ -165,7 +165,207 @@ p {
   }
 }
 
-.spacing-0{
+.spacing-0 {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.blog-highlight {
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid rgba(198, 255, 82, 0.45);
+  border-radius: 18px;
+  background: rgba(198, 255, 82, 0.08);
+}
+
+.blog-highlight p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-highlight-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #111;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PRO TIP
+   ========================================================= */
+
+.blog-tip {
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  border-left: 4px solid #c6ff52;
+  border-radius: 0 16px 16px 0;
+  background: #f7f7f2;
+}
+
+.blog-tip-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #111;
+  font-weight: 700;
+}
+
+.blog-tip p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   WARNING / IMPORTANT
+   ========================================================= */
+
+.blog-note {
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  background: #f7f7f7;
+}
+
+.blog-note-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #111;
+  font-weight: 700;
+}
+
+.blog-note p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.blog-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+
+.blog-stat {
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  background: #fafafa;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.blog-stat:hover {
+  transform: translateY(-4px);
+  border-color: rgba(198, 255, 82, 0.7);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+}
+
+.blog-stat-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #777;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-stat-value {
+  display: block;
+  color: #111;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.blog-stat-description {
+  margin-top: 0.25rem;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.blog-content .table-wrapper {
+  width: 100%;
+  margin: 2rem 0;
+  overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+}
+
+.blog-content table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.blog-content th {
+  padding: 1rem;
+  background: #111;
+  color: #fff;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.blog-content td {
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.blog-content tr:hover td {
+  background: rgba(198, 255, 82, 0.05);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .blog-content {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .blog-content h2 {
+    margin-top: 2.75rem;
+    font-size: 1.6rem;
+  }
+
+  .blog-content h3 {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+  }
+
+  .blog-content pre {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .blog-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-highlight,
+  .blog-tip,
+  .blog-note {
+    padding: 1.25rem;
+  }
 }
