@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Breadcrumb({ items }) {
     return (
         <nav aria-label="Breadcrumb" className="mb-6">
-            <ol className="flex flex-wrap items-center gap-1 font-mono text-xs text-muted">
+            <ol className="flex flex-wrap items-center gap-1 font-mono text-xs text-muted spacing-0">
                 {items.map((item, i) => (
                     <li key={i} className="flex items-center gap-1">
                         {item.href ? (

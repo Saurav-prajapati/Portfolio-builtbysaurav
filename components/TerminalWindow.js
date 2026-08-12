@@ -23,14 +23,13 @@ const CODE_LINES = [
 
   {
     indent: 1,
-    text: 'stack: ["Shopify", "React", "Next.js", "TypeScript", "Node.js", "WordPress", "Java", "Spring Boot", "Photoshop", "Illustrator", "Premiere Pro"],',
+    text: 'stack: ["Shopify", "React", "Next.js", "TypeScript", "Node.js", "WordPress", "Spring Boot", "Photoshop", "Illustrator", "Premiere Pro"],',
   },
 
   { indent: 1, text: 'speciality: "Full‑Service Digital Studio",' },
   { indent: 1, text: 'projectsDelivered: "50+",' },
   { indent: 1, text: 'shopifyStores: "20+",' },
   { indent: 1, text: 'designServices: "5+",' },
-  { indent: 1, text: 'javaProjects: "3+",' },
 
   { indent: 1, text: 'currently: "Open to work",' },
 

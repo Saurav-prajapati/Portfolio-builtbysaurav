@@ -28,7 +28,7 @@ export default function FinalCTA() {
                                 <h2 className="mt-5 font-display text-4xl font-bold leading-tight text-ink sm:text-5xl lg:text-6xl">
                                     Ready to build
                                     <br />
-                                    <span className="bg-gradient-to-r from-lime to-violet bg-clip-text text-transparent">
+                                    <span className="bg-gradient-to-r from-lime to-lime bg-clip-text text-transparent">
                                         something iconic?
                                     </span>
                                 </h2>
