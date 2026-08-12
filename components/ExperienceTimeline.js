@@ -22,7 +22,7 @@ export default function ExperienceTimeline() {
                 {siteConfig.experience.map((exp, i) => (
                     <Reveal key={i} delay={i * 0.1}>
                         <div className="mb-10 ml-6 md:ml-10 relative">
-                            {/* Timeline dot */}
+                            
                             <span className="absolute -left-[calc(1.5rem+2px)] md:-left-[calc(2.5rem+2px)] top-1 h-4 w-4 rounded-full border-2 border-lime bg-panel" />
 
                             <span className="font-mono text-xs text-lime">{exp.period}</span>
