@@ -32,7 +32,7 @@ export default function BlogListClient() {
             </Reveal>
             <Reveal delay={0.1}>
                 <p className="mt-4 max-w-2xl text-lg text-muted">
-                    Guides, tutorials, and thoughts on Shopify, React, design, and more.
+                    Guides, tutorials, and thoughts on Shopify, React, design, and more..
                 </p>
             </Reveal>
 
