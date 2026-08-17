@@ -45,7 +45,7 @@ export default function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                data-cursor="visit"
+                data-cursor={s.visit}
                 className="transition-colors hover:text-ink"
               >
                 {s.label} ↗
@@ -54,10 +54,35 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col-reverse items-start justify-between gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center">
+        <div className="mt-5 flex flex-col-reverse items-start justify-between gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center">
+          {siteConfig.policies.map((policy, index) => (
+            <div key={policy.label} className="flex items-center gap-x-2 justify-center">
+              <a
+                href={policy.href}
+                data-cursor="visit"
+                className="text-xs uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
+              >
+                {policy.label}
+              </a>
+
+              {index < siteConfig.policies.length - 1 && (
+                <span
+                  aria-hidden="true"
+                  className="text-line"
+                >
+                  /
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 flex flex-col-reverse items-start justify-between gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center">
           <p>Designed &amp; built by {siteConfig.name}</p>
           <p className="font-mono">{"<end-of-file/>"}</p>
         </div>
+
+        
       </div>
     </footer>
   );
