@@ -9,6 +9,7 @@ import { siteConfig } from "@/lib/siteConfig";
 const TABS = [
   { href: "/", file: "home.tsx" },
   { href: "/about", file: "about.tsx" },
+  { href: "/sections", file: "code.tsx" },
   { href: "/portfolio", file: "portfolio.tsx" },
   { href: "/services", file: "services.tsx" },
   { href: "/blog", file: "blog.tsx" },

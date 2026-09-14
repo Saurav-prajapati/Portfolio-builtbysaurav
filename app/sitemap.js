@@ -1,5 +1,6 @@
 import { blogPosts } from "@/lib/blog";
 import { siteConfig } from "@/lib/siteConfig";
+import { sections } from "@/lib/sections";
 
 export default function sitemap() {
   const baseUrl = "https://builtbysaurav.in";
@@ -20,6 +21,14 @@ export default function sitemap() {
     lastModified: blog.date ? new Date(blog.date) : new Date(),
     changeFrequency: "monthly",
     priority: 0.85,
+  }));
+
+  // Dynamic section pages
+  const sectionPages = sections.map((s) => ({
+    url: `${baseUrl}/sections/${s.slug}`,
+    lastModified: new Date(s.updatedAt || Date.now()),
+    changeFrequency: "monthly",
+    priority: 0.7,
   }));
 
   // Legal / policy pages
@@ -99,8 +108,12 @@ export default function sitemap() {
 
     // Dynamic blog pages
     ...blogPages,
+    
+    // Dynamic section pages
+    ...sectionPages,
 
     // Legal / policy pages
     ...policyPages,
+
   ];
 }
