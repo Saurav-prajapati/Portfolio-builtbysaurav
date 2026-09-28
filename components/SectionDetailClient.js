@@ -43,18 +43,15 @@ export default function SectionDetailClient({ section, allSections }) {
     const [copied, setCopied] = useState(false);
     const [activeTab, setActiveTab] = useState("preview");
 
-    // Gate
     const [gateOpen, setGateOpen] = useState(false);
-    const [pendingAction, setPendingAction] = useState(null); // "download" | "copy"
+    const [pendingAction, setPendingAction] = useState(null); // "download" | "copy" | "unlock"
     const [user, setUser] = useState(null);
 
-    // Load saved user from localStorage
     useEffect(() => {
         try {
             const raw = localStorage.getItem("bbs_user");
             if (raw) {
                 const parsed = JSON.parse(raw);
-                // 30 day expiry
                 if (Date.now() - parsed.ts < 30 * 24 * 60 * 60 * 1000) {
                     setUser(parsed);
                 }
@@ -64,25 +61,42 @@ export default function SectionDetailClient({ section, allSections }) {
 
     const hasCode = Boolean(section.code);
     const codeLines = (section.code || "").split("\n");
+    const isUnlocked = Boolean(user);
+
+    // Preview shows ~40% (min 8, max 20 lines)
+    const PREVIEW_LINES = Math.max(
+        8,
+        Math.min(20, Math.ceil(codeLines.length * 0.4))
+    );
 
     // ── Silent tracking helper ──
     const trackAction = (userData, action) => {
+        if (!userData?.email) return;
+
+        const trackKey = `bbs_tracked:${userData.email}:${section.slug}:${action}`;
+        if (typeof window !== "undefined" && localStorage.getItem(trackKey)) {
+            return;
+        }
+
         fetch("/api/sections/track", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                name: userData?.name || "anonymous",
-                email: userData?.email || "unknown",
+                name: userData.name,
+                email: userData.email,
                 sectionTitle: section.title,
                 slug: section.slug,
                 action,
             }),
-        }).catch((err) => {
-            console.warn("Track failed:", err);
-        });
+        })
+            .then(() => {
+                localStorage.setItem(trackKey, "1");
+            })
+            .catch((err) => {
+                console.warn("Track failed:", err);
+            });
     };
 
-    // ── Actual copy action ──
     const doCopy = async (userData) => {
         try {
             await navigator.clipboard.writeText(section.code || "");
@@ -94,7 +108,6 @@ export default function SectionDetailClient({ section, allSections }) {
         }
     };
 
-    // ── Actual download action ──
     const doDownload = (userData) => {
         trackAction(userData, "download");
 
@@ -109,20 +122,17 @@ export default function SectionDetailClient({ section, allSections }) {
         URL.revokeObjectURL(url);
     };
 
-    // ── Request action (with gate check) ──
     const requestAction = (action) => {
         if (user) {
-            // Already registered — just perform action and track
             if (action === "download") doDownload(user);
-            else doCopy(user);
+            else if (action === "copy") doCopy(user);
+            // "unlock" doesn't need to do anything if already unlocked
         } else {
-            // First time — open gate
             setPendingAction(action);
             setGateOpen(true);
         }
     };
 
-    // ── Called from gate onSuccess ──
     const handleGateSuccess = ({ name, email }) => {
         const userData = { name, email, ts: Date.now() };
         try {
@@ -132,11 +142,11 @@ export default function SectionDetailClient({ section, allSections }) {
 
         if (pendingAction === "download") doDownload(userData);
         else if (pendingAction === "copy") doCopy(userData);
+        // "unlock" — nothing more needed, code reveals automatically
 
         setPendingAction(null);
     };
 
-    // Related sections
     const related = allSections
         .filter(
             (s) =>
@@ -145,10 +155,14 @@ export default function SectionDetailClient({ section, allSections }) {
         )
         .slice(0, 3);
 
+    // Lines visible based on unlock state
+    const visibleLines = isUnlocked
+        ? codeLines
+        : codeLines.slice(0, PREVIEW_LINES);
+
     return (
         <>
             <section className="mx-auto max-w-6xl overflow-x-hidden px-5 pb-24 pt-16 md:px-8 md:pt-24">
-                {/* Breadcrumb */}
                 <Reveal>
                     <Breadcrumb
                         items={[
@@ -159,7 +173,6 @@ export default function SectionDetailClient({ section, allSections }) {
                     />
                 </Reveal>
 
-                {/* ── HEADER ── */}
                 <Reveal>
                     <SectionLabel index={section.ext}>
                         {section.category} · {section.platform}
@@ -174,7 +187,7 @@ export default function SectionDetailClient({ section, allSections }) {
                             </h1>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <p className="mt-4 max-w-2xl text-lg text-muted">
+                            <p className="mt-4 max-w-2xl font-display text-lg text-muted">
                                 {section.longDescription || section.description}
                             </p>
                         </Reveal>
@@ -231,9 +244,7 @@ export default function SectionDetailClient({ section, allSections }) {
                     </Reveal>
                 </div>
 
-                {/* ── MAIN GRID ── */}
                 <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-                    {/* LEFT */}
                     <div className="min-w-0">
                         {/* Tabs */}
                         <div className="flex items-center gap-2 border-b border-line">
@@ -308,7 +319,7 @@ export default function SectionDetailClient({ section, allSections }) {
                             </motion.div>
                         )}
 
-                        {/* CODE */}
+                        {/* CODE — locked/unlocked */}
                         {activeTab === "code" && hasCode && (
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
@@ -316,27 +327,107 @@ export default function SectionDetailClient({ section, allSections }) {
                                 transition={{ duration: 0.3 }}
                                 className="mt-6 w-full min-w-0 overflow-hidden rounded-2xl border border-line bg-[#0b1220]"
                             >
+                                {/* Header */}
                                 <div className="flex items-center justify-between border-b border-line/60 bg-[#080e1a] px-4 py-2.5">
                                     <div className="flex min-w-0 items-center gap-3">
                                         <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-coral/70" />
                                         <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-lime/60" />
                                         <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-violet/70" />
                                         <span className="ml-2 truncate font-mono text-[11px] text-muted">
-                                            {section.slug}{section.ext}
+                                            {section.slug}
+                                            {section.ext}
                                         </span>
                                     </div>
-                                    <button
-                                        onClick={() => requestAction("copy")}
-                                        className="shrink-0 rounded-full border border-line/60 px-3 py-1 font-mono text-[10px] text-muted transition-colors hover:border-lime hover:text-lime"
-                                    >
-                                        {copied ? "copied ✓" : "copy"}
-                                    </button>
+
+                                    {/* Header status */}
+                                    {isUnlocked ? (
+                                        <button
+                                            onClick={() => requestAction("copy")}
+                                            className="shrink-0 rounded-full border border-line/60 px-3 py-1 font-mono text-[10px] text-muted transition-colors hover:border-lime hover:text-lime"
+                                        >
+                                            {copied ? "copied ✓" : "copy"}
+                                        </button>
+                                    ) : (
+                                        <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-lime/40 bg-lime/5 px-3 py-1 font-mono text-[10px] text-lime">
+                                            <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" strokeWidth={2} />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11V7a5 5 0 0110 0v4" />
+                                            </svg>
+                                            locked
+                                        </span>
+                                    )}
                                 </div>
-                                <div className="max-h-[600px] w-full overflow-y-auto overflow-x-hidden">
+
+                                {/* Code body */}
+                                <div className="relative max-h-[600px] w-full overflow-y-auto overflow-x-hidden">
                                     <div className="w-full p-4 font-mono text-[12px] leading-relaxed sm:text-[12.5px]">
-                                        {codeLines.map((line, i) => (
+                                        {visibleLines.map((line, i) => (
                                             <CodeLine key={i} line={line} index={i} />
                                         ))}
+
+                                        {/* Fake blurred tail + unlock CTA */}
+                                        {!isUnlocked && (
+                                            <div className="relative mt-3">
+                                                {/* Blurred fake lines */}
+                                                <div
+                                                    className="pointer-events-none select-none space-y-1 blur-[3px] opacity-40"
+                                                    aria-hidden="true"
+                                                >
+                                                    {Array.from({ length: 5 }).map((_, i) => (
+                                                        <div key={i} className="flex w-full min-w-0 items-start">
+                                                            <span
+                                                                className="shrink-0 select-none pr-4 text-right text-muted/40"
+                                                                style={{ minWidth: "2.75rem" }}
+                                                            >
+                                                                {PREVIEW_LINES + i + 1}
+                                                            </span>
+                                                            <span className="min-w-0 flex-1 break-all text-lime/40">
+                                                                {"lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-"}
+                                                            </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                                {/* Fade + unlock card */}
+                                                <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center bg-gradient-to-t from-[#0b1220] via-[#0b1220]/95 to-transparent pt-6">
+                                                    <motion.div
+                                                        initial={{ scale: 0.85, opacity: 0 }}
+                                                        animate={{ scale: 1, opacity: 1 }}
+                                                        transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 20 }}
+                                                        className="flex h-12 w-12 items-center justify-center rounded-full border border-lime/40 bg-lime/10 text-lime shadow-lg shadow-lime/20"
+                                                    >
+                                                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <rect x="3" y="11" width="18" height="11" rx="2" strokeWidth={2} />
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11V7a5 5 0 0110 0v4" />
+                                                        </svg>
+                                                    </motion.div>
+
+                                                    <p className="mt-3 font-display text-sm font-semibold text-ink">
+                                                        Unlock the full code
+                                                    </p>
+                                                    <p className="mt-1 max-w-[260px] text-center font-mono text-[10px] leading-relaxed text-muted">
+                                                        Enter your name &amp; email to reveal the complete
+                                                        {" "}{section.slug}
+                                                        {section.ext} file
+                                                    </p>
+
+                                                    <button
+                                                        onClick={() => {
+                                                            setPendingAction("unlock");
+                                                            setGateOpen(true);
+                                                        }}
+                                                        className="mt-4 flex items-center gap-2 rounded-full bg-lime px-5 py-2.5 font-mono text-[11px] font-semibold text-black transition-transform hover:-translate-y-0.5"
+                                                    >
+                                                        unlock now
+                                                        <span>→</span>
+                                                    </button>
+
+                                                    <p className="mt-2 font-mono text-[9px] text-muted">
+                                                        {codeLines.length - PREVIEW_LINES} more lines hidden
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </motion.div>
@@ -547,7 +638,6 @@ export default function SectionDetailClient({ section, allSections }) {
                 </Reveal>
             </section>
 
-            {/* Email gate */}
             <SectionDownloadGate
                 open={gateOpen}
                 action={pendingAction}

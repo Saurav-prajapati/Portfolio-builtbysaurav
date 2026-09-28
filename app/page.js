@@ -10,6 +10,8 @@ import { blogPosts } from "@/lib/blog";
 import WhyWork from "@/components/WhyWork";
 import WorkProcess from "@/components/WorkProcess";
 import FinalCTA from "@/components/FinalCTA";
+import InteractiveHero from "@/components/InteractiveHero";
+
 
 export const metadata = {
   title: "Shopify & Frontend Developer Delhi – Saurav Prajapati",
@@ -73,7 +75,8 @@ export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <HeroSection />
+      <InteractiveHero />
+      {/* <HeroSection /> */}
       <MarqueeStrip />
 
       {/* STATS */}
