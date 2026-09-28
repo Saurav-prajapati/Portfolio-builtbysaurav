@@ -226,7 +226,7 @@ export default function SectionDetailClient({ section, allSections }) {
                                         <svg className="relative h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
                                         </svg>
-                                        <span className="relative">download {section.ext}</span>
+                                        <span className="relative">download {section.slug}{section.ext}</span>
                                     </button>
                                 </>
                             )}
